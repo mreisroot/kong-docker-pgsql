@@ -1,0 +1,61 @@
+---
+services:
+  kong-database:
+    container_name: "kong-db"
+    image: "postgres:15-alpine"
+    restart: "always"
+    attach: false
+    environment:
+      POSTGRES_USER: "kong"
+      POSTGRES_DB: "kong"
+      POSTGRES_PASSWORD: "kongpass"
+    networks:
+      - "kong-network"
+    ports:
+      - "5432:5432"
+
+  kong-bootstrap:
+    image: "kong/kong-gateway:3.5.0.2"
+    restart: "no"
+    environment:
+      KONG_DATABASE: "postgres"
+      KONG_PG_HOST: "kong-db"
+      KONG_PG_PASSWORD: "kongpass"
+      KONG_PASSWORD: "test"
+    networks:
+      - "kong-network"
+    command: "kong migrations bootstrap"
+
+  kong-gateway:
+    container_name: "kong-gateway"
+    image: "kong/kong-gateway:3.5.0.2"
+    restart: "always"
+    attach: false
+    environment:
+      KONG_DATABASE: "postgres"
+      KONG_PG_HOST: "kong-database"
+      KONG_PG_USER: "kong"
+      KONG_PG_PASSWORD: "kongpass"
+      KONG_PROXY_ACCESS_LOG: "/dev/stdout"
+      KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
+      KONG_PROXY_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001"
+      KONG_ADMIN_GUI_URL: "http://localhost:8002"
+    networks:
+      - "kong-network"
+    ports:
+      - "8000:8000"
+      - "8443:8443"
+      - "8001:8001"
+      - "8444:8444"
+      - "8002:8002"
+      - "8445:8445"
+      - "8003:8003"
+      - "8004:8004"
+
+networks:
+  kong-network:
+    name: "kong-net"
+    driver: "bridge"
+...
