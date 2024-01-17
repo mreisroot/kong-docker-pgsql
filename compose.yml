@@ -15,6 +15,7 @@ services:
       - "5432:5432"
 
   kong-bootstrap:
+    container_name: "kong-bootstrap"
     image: "kong/kong-gateway:3.5.0.2"
     restart: "no"
     environment:
