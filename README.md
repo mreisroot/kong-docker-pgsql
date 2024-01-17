@@ -64,3 +64,19 @@ To deploy the Kong container stack:
 To destroy the Kong container stack:
 
 `down.sh`
+
+### Docker commands
+
+In case of using a system that doesn't have a UNIX shell (e.g. Bourne Shell, Bash) that has Docker installed, like Windows, you can interact with the stack by running Docker commands:
+
+1. Create the kong-net network:
+
+`docker network create kong-net`
+
+2. Deploy the stack:
+
+`docker compose up`
+
+3. Destroy the stack:
+
+`docker compose down`
