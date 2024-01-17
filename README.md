@@ -4,17 +4,27 @@
 
 ## Introduction
 
-In this project, an instance of Kong Gateway, an open source API gateway, is deployed with a PostgreSQL database on containers using Docker Compose.
+In this project, a stack consisting of Kong Gateway, an open source API gateway, and PostgreSQL is deployed on containers using Docker Compose.
 
 ---
 
 ## Requirements
 
-[Have Docker installed on your system](https://docs.docker.com/get-docker/)
+* [Have Docker installed on your system](https://docs.docker.com/get-docker/)
+* Access to Bourne Shell (/bin/sh), Bash, or some other Bourne-compatible shell
 
 ---
 
 ## Architecture
+
+### Interaction scripts
+
+In this project there are stack interaction scripts:
+
+* `menu.sh` - Interactive menu
+* `functions.sh` - Functions used by the menu script
+* `up.sh` - Separate script that deploys the stack
+* `down.sh` - Separate script that destroys the stack
 
 ### Compose file
 
@@ -29,10 +39,28 @@ On the [compose.yml](./compose.yml) file, there are the definitions of the follo
 
 ## How to use this project
 
-To deploy Kong, run:
+### Interactive menu
 
-`docker compose up`
+The easiest way to use the project is through the interactive menu implemented on the [menu.sh](./menu.sh) script, which uses the functions defined in the [functions.sh](./functions.sh) file.
 
-To remove the created containers, run:
+To access the interactive menu, type in a UNIX/Linux terminal:
 
-`docker compose down`
+`./menu.sh`
+
+The menu will present four options:
+
+1. Deploy Stack
+2. Destroy Stack
+3. Exit
+
+### Separate scripts
+
+If you want a faster way to use the project, consider running the following scripts:
+
+To deploy the Kong container stack:
+
+`./up.sh`
+
+To destroy the Kong container stack:
+
+`down.sh`
