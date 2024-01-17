@@ -16,7 +16,9 @@ do
     case "${i}" in
       1) echo "[ ${i} ] - Deploy Stack";;
       2) echo "[ ${i} ] - Destroy Stack";;
-      3) echo "[ ${i} ] - Exit";;
+      3) echo "[ ${i} ] - Export Kong Data";;
+      4) echo "[ ${i} ] - Import Kong Data";;
+      5) echo "[ ${i} ] - Exit";;
     esac
   done
 
@@ -26,6 +28,8 @@ do
   case "${choice}" in
     1) deploy;;
     2) destroy;;
-    3) break;;
+    3) export_data;;
+    4) import_data;;
+    5) break;;
   esac
 done
