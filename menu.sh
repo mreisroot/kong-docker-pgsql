@@ -11,7 +11,7 @@ do
 
   # Option menu
   printf "KONG-DOCKER STACK MENU\n\n"
-  for i in $(seq 1 3);
+  for i in $(seq 1 5);
   do
     case "${i}" in
       1) echo "[ ${i} ] - Deploy Stack";;
