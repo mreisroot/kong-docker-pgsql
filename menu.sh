@@ -11,12 +11,13 @@ do
 
   # Option menu
   printf "KONG-DOCKER STACK MENU\n\n"
-  for i in $(seq 1 3);
+  for i in $(seq 1 4);
   do
     case "${i}" in
       1) echo "[ ${i} ] - Deploy Stack";;
       2) echo "[ ${i} ] - Destroy Stack";;
-      3) echo "[ ${i} ] - Exit";;
+      3) echo "[ ${i} ] - Destroy Stack and Clear Data";;
+      4) echo "[ ${i} ] - Exit";;
     esac
   done
 
@@ -26,6 +27,7 @@ do
   case "${choice}" in
     1) deploy;;
     2) destroy;;
-    3) break;;
+    3) destroy_clear_data;;
+    4) break;;
   esac
 done
