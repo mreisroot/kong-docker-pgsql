@@ -6,9 +6,13 @@ services:
     restart: "always"
     attach: false
     environment:
-      POSTGRES_USER: "kong"
       POSTGRES_DB: "kong"
+      POSTGRES_USER: "kong"
       POSTGRES_PASSWORD: "kongpass"
+    volumes:
+      - type: "volume"
+        source: "kong-database-data"
+        target: "/var/lib/postgresql/data"
     networks:
       - "kong-network"
     ports:
@@ -32,9 +36,11 @@ services:
     image: "kong/kong-gateway:3.5.0.2"
     restart: "always"
     attach: false
+    depends_on:
+      - "kong-database"
     environment:
       KONG_DATABASE: "postgres"
-      KONG_PG_HOST: "kong-database"
+      KONG_PG_HOST: "kong-db"
       KONG_PG_USER: "kong"
       KONG_PG_PASSWORD: "kongpass"
       KONG_PROXY_ACCESS_LOG: "/dev/stdout"
@@ -43,6 +49,10 @@ services:
       KONG_ADMIN_ERROR_LOG: "/dev/stderr"
       KONG_ADMIN_LISTEN: "0.0.0.0:8001"
       KONG_ADMIN_GUI_URL: "http://localhost:8002"
+    volumes:
+      - type: "volume"
+        source: "kong-data"
+        target: "/usr/local/kong"
     networks:
       - "kong-network"
     ports:
@@ -54,6 +64,12 @@ services:
       - "8445:8445"
       - "8003:8003"
       - "8004:8004"
+
+volumes:
+  kong-database-data:
+    name: "kong-database-data"
+  kong-data:
+    name: "kong-data"
 
 networks:
   kong-network:
