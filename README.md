@@ -51,7 +51,8 @@ The menu will present four options:
 
 1. Deploy Stack
 2. Destroy Stack
-3. Exit
+3. Destroy Stack and Clear data
+4. Exit
 
 ### Separate scripts
 
@@ -63,7 +64,11 @@ To deploy the Kong container stack:
 
 To destroy the Kong container stack:
 
-`down.sh`
+`./down.sh`
+
+To destroy the stack and clear data:
+
+`./down_data.sh`
 
 ### Docker commands
 
@@ -80,3 +85,7 @@ In case of using a system that doesn't have a UNIX shell (e.g. Bourne Shell, Bas
 3. Destroy the stack:
 
 `docker compose down`
+
+4. Destroy the stack and clear data:
+
+`docker compose down -v`
