@@ -32,7 +32,7 @@ services:
     command: "kong migrations bootstrap"
 
   kong-gateway:
-    container_name: "kong-gateway"
+    container_name: "kong"
     image: "kong/kong-gateway:3.5.0.2"
     restart: "always"
     attach: false
