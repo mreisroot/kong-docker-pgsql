@@ -31,13 +31,14 @@ services:
       - "kong-network"
     command: "kong migrations bootstrap"
 
-  kong-gateway:
+  kong:
     container_name: "kong"
     image: "kong/kong-gateway:3.5.0.2"
     restart: "always"
     attach: false
     depends_on:
       - "kong-database"
+      - "kong-bootstrap"
     environment:
       KONG_DATABASE: "postgres"
       KONG_PG_HOST: "kong-db"
@@ -64,6 +65,28 @@ services:
       - "8445:8445"
       - "8003:8003"
       - "8004:8004"
+
+  konga:
+    container_name: "konga"
+    image: "pantsel/konga"
+    restart: "always"
+    attach: false
+    depends_on: 
+      - "kong"
+    environment:
+      KONGA_URL: "http://kong:8001"
+      KONGA_DATABASE_TYPE: "postgres"
+      KONGA_DATABASE_HOST: "kong-db"
+      KONGA_DATABASE_USER: "kong"
+      KONGA_DATABASE_PASSWORD: "kongpass"
+      KONGA_DATABASE_NAME: "kong"
+      NODE_ENV: "production"
+    networks:
+      - "kong-network"
+    ports:
+      - "1337:1337"
+    links:
+      - "kong:8001"
 
 volumes:
   kong-database-data:
